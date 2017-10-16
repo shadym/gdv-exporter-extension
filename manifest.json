@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "GDV exporter",
+  "description": "This extension allows the user to export record data from GDV website",
+  "version": "0.1",
+
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "GDV Exporter"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "notifications"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.gdv-online.de/*"],
+      "js": ["exporter.js"]
+    }
+  ]
+}
