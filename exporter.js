@@ -12,7 +12,7 @@ class Parser {
 
 	formatLink(text) {
 		const linkRegex = /<a href='(\w*.htm)'>(.*)<\/a>/g
-		return text.replace(linkRegex, `=HYPERLINK("http://www.gdv-online.de/snetz/release2013/$1"; "$2")`)
+		return text.replace(linkRegex, `=HYPERLINK("http://www.gdv-online.de/snetz/release2013/$1", "$2")`)
 	}
 
 	format(text) {
