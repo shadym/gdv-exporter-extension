@@ -1,6 +1,6 @@
 class Parser {
 	formatMultiline(htmlText) {
-		const isOneTag = text => text.match(/<\//g) && text.match(/<\//g).length === 1
+		const isOneTag = text => text.match(/^<\//g) && text.match(/<\a>&//g).length === 1
 
 		var formatted = htmlText.trim()
 			.replace(/"/gm, '\'')
@@ -53,17 +53,15 @@ class Parser {
 		var translateRequests = []
 		uniqData.forEach((v, i, a) => {
 			var nameRequest = translator.translate(v.name)
-			nameRequest.then(t => a[i].engName = t)
+			nameRequest.then(t => a[i].engName = this.format(t))
 			var descriptionRequest = translator.translate(v.description)
-			descriptionRequest.then(t => a[i].engDescription = t)
+			descriptionRequest.then(t => a[i].engDescription = this.formatMultiline(t).replace(/\'/gm, ''))
 			translateRequests.push(nameRequest)
 			translateRequests.push(descriptionRequest)
 		})
-
-
+		
 		return new Promise((resolve, reject) => {
 			Promise.all(translateRequests).then((values) => {
-				debugger
 				let lines = uniqData.map(x=>`${x.number}\t${x.name}\t${x.darst}\t${x.anzahlBytes}\t${x.byteAdr}\t${x.M}\t${x.description}\t${x.engName}\t${x.engDescription}`)
 				var data = lines.join('\n')
 				resolve(data)
