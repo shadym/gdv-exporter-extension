@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.gdv-online.de/*"],
-      "js": ["exporter.js"]
+      "js": ["exporter.js", "translator.js"]
     }
   ]
 }
