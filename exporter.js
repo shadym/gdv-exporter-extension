@@ -76,21 +76,40 @@ const parser = new Parser()
 
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-    if (msg.text === 'get_record') {
-    	sendResponse
-    	parser.extractRecordData()
-    		.then(v => {
-    			sendResponse(v)
-    		})
-    		.then(() => {
-    			console.log('GENERATED')
-    		})
-    }
-    
+	if (msg.text === 'get_record') {
+		parser.extractRecordData()
+			.then(v => {
+				sendResponse(v)
+			})
+			.then(() => {
+				console.log('GENERATED')
+				notify("Record Generated", "GDV Record generated with translations")
+			})
+	}
+
     return true
 });
 
 
+function notify(title, message) {
+	if (!("Notification" in window)) {
+		alert(`${title}\n${message}`);
+	}
 
+	else if (Notification.permission === "granted") {
+		var notification = new Notification(title, {
+			body: message
+		});
+	}
 
+	else if (Notification.permission !== "denied") {
+		Notification.requestPermission(function (permission) {
+			if (permission === "granted") {
+				var notification = new Notification(title, {
+					body: message
+				});
+			}
+		});
+	}
+}
 
