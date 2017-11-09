@@ -151,8 +151,70 @@ class Router {
 	}
 }
 
+class InlineTypelistParser {
+	constructor() {
+		this.init()
+	}
+
+	init() {
+		document.addEventListener('keydown', e => {
+			if (e.key === 'T' && e.altKey && e.shiftKey) {
+				var text = window.getSelection().toString()
+				this.copyToClipboard(this.parse(text))
+			}
+		})
+	}
+
+	toTitleCase(x) {
+		return x[0].toUpperCase() + x.substr(1)
+	}
+
+	toCode(v) {
+		return v.toLowerCase().replace(/[^a-z\d\s]+/ig, '').replace(/\s+/g, '_')
+	}
+
+	toName(v) {
+		 return v.replace(/[^a-z\d\s]+/ig, '').split(' ').filter(x => !!x).map(x => this.toTitleCase(x)).join('')
+	}
+
+	toDescription(v, n) {
+		return `${this.toTitleCase(v)} (${n})`
+	}
+
+	toTypecode(v, n) {
+		return `  <typecode
+    code="${this.toCode(v)}"
+    desc="${this.toDescription(v, n)}"
+    name="${this.toName(v)}"
+    priority="${+n > 0 ? +n * 10 : 9999}"/>`
+	}
+
+	parseLine(l) {
+		let d = l.indexOf('=')
+		return ({
+			text: l.substr(d + 2).trim(),
+			index: d === 0 ? ' ' : l.substr(0, d - 1)
+		})
+	}
+
+	parse(t) {
+		return t.split('\n').map(l => this.parseLine(l)).map(l => this.toTypecode(l.text, l.index)).join('\n')
+	}
+
+	copyToClipboard(text) {
+		var $temp = document.createElement('textarea');
+		document.body.append($temp);
+		$temp.value = text;
+		$temp.select();
+		document.execCommand("copy");
+		$temp.remove();
+	}
+
+}
+
 const parser = new Parser()
 const router = new Router()
+const typelistParser = new InlineTypelistParser()
 
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
