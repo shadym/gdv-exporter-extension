@@ -73,8 +73,8 @@ class Parser {
 class Router {
 	constructor() {
 		this.recordPattern = /\d{4}/
-		this.messagePattern = /\d{3}/
-		this.messagePatternShort = /\d{2}/
+		this.messagePattern = /^0?\d{2}$/
+		this.appendixPattern = /^(1\d{2}|[17])$/
 		this.initUI()
 	}
 
@@ -97,9 +97,9 @@ class Router {
 				if (this.recordPattern.test(val)) {
 					url = `http://www.gdv-online.de/snetz/release2013/ds${val}.htm`
 				} else if (this.messagePattern.test(val)) {
-					url =`http://www.gdv-online.de/snetz/release2013/le${val}.htm`
-				} else if (this.messagePatternShort.test(val)) {
-					url =`http://www.gdv-online.de/snetz/release2013/le0${val}.htm`
+					url =`http://www.gdv-online.de/snetz/release2013/le0${+val}.htm`
+				} else if (this.appendixPattern.test(val)) {
+					url =`http://www.gdv-online.de/snetz/release2013/anl${val}.htm`
 				}
 
 				if (url) {
@@ -111,6 +111,12 @@ class Router {
 						input.value = ""
 					}
 				}
+			}
+		})
+
+		div.addEventListener('keyup', e => {
+		 	if (e.key  == "Escape" || e.key == "Esc") {
+				input.blur()
 			}
 		})
 
