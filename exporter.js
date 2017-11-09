@@ -70,7 +70,83 @@ class Parser {
 	}
 }
 
+class Router {
+	constructor() {
+		this.recordPattern = /\d{4}/
+		this.messagePattern = /\d{3}/
+		this.messagePatternShort = /\d{2}/
+		this.initUI()
+	}
+
+	initUI() {
+		var div = document.createElement('div')
+		div.style.position = "fixed"
+		div.style.width = "120px"
+		div.style.height = "30px"
+		div.style.backgroundColor = "#fff"
+		div.style.top = 0
+		div.style.right = 0
+		var input = document.createElement('input')
+		input.style.height = "30px"
+		input.style.fontSize = "1.3em"
+
+		input.addEventListener('keypress', e => {
+			if (e.key === "Enter") {
+				let val = input.value.trim()
+				var url = null
+				if (this.recordPattern.test(val)) {
+					url = `http://www.gdv-online.de/snetz/release2013/ds${val}.htm`
+				} else if (this.messagePattern.test(val)) {
+					url =`http://www.gdv-online.de/snetz/release2013/le${val}.htm`
+				} else if (this.messagePatternShort.test(val)) {
+					url =`http://www.gdv-online.de/snetz/release2013/le0${val}.htm`
+				}
+
+				if (url) {
+					let test = this.testUrl(url)
+					if (test.success) {
+						document.location = url
+					} else {
+						this.showError(test.error)
+						input.value = ""
+					}
+				}
+			}
+		})
+
+		document.addEventListener('keypress', e => {
+			if (e.keyCode === 10) {
+				input.focus()
+			}
+		})
+
+		div.appendChild(input)
+		document.body.appendChild(div)
+	}
+
+	testUrl(url) {
+		var xhr = new XMLHttpRequest();
+		xhr.open('HEAD', url, false);
+		xhr.send();
+		if (xhr.status != 200) {
+			return {
+				success: false,
+				error: `${xhr.status}: ${xhr.statusText}`
+			}
+		} else {
+			return {
+				success: true
+			}
+		}
+	}
+
+	showError(text) {
+		notify("ERROR", text)	
+	}
+}
+
 const parser = new Parser()
+const router = new Router()
 
 
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
@@ -110,4 +186,3 @@ function notify(title, message) {
 		});
 	}
 }
-
