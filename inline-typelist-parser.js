@@ -30,7 +30,7 @@ class InlineTypelistParser {
 					})
 				}
 				else {
-					this.copyToClipboard(this.generateTypelist(text))
+					this.copyToClipboard(this.generateTypecodes(text))
 				}
 			}
 		})
@@ -55,6 +55,11 @@ class InlineTypelistParser {
 		const copyTypelist = document.querySelector('#copy-typelist')
 		copyTypelist.addEventListener('click', e => {
 			this.copyToClipboard(this.getLines().map(l => this.toTypecode(l.english, l.code)).join('\n'))
+		})
+		
+		const copyMapping = document.querySelector('#copy-mapping')
+		copyMapping.addEventListener('click', e => {
+			this.copyToClipboard(this.getLines().map(l => this.toMapping(l)).join('\n'))
 		})
 	}
 
@@ -117,6 +122,19 @@ class InlineTypelistParser {
     name="${this.toName(v)}"/>`
 	}
 
+	toMapping(l) {
+		let len = this.toCode(l.english).length + l.code.length + 44
+		let spaceCount = 100 - len
+		return `<mapping typecode="${this.toCode(l.english)}" namespace="glp:gdv" alias="${l.code}" />${' '.repeat(spaceCount)}<!-- ${l.german} -->`
+	}
+
+	generateTypelist(name, record, codes) {
+		let template = `<?xml version="1.0"?>
+		<typelist xmlns="http://guidewire.com/typelists" name="${name}" desc="ADD DESCRIPTION HERE">
+		${codes}
+		</typelist>`
+	}
+
 	parseLine(l) {
 		let d = l.indexOf('=')
 		return ({
@@ -129,7 +147,7 @@ class InlineTypelistParser {
 		return t.split('\n').map(l => this.parseLine(l)).filter(l => l.code)
 	}
 
-	generateTypelist(t) {
+	generateTypecodes(t) {
 		return this.parse(t).map(l => this.toTypecode(l.text, l.code)).join('\n')
 	}
 
@@ -239,7 +257,8 @@ function getPopupTemplate() { return `
 	<div id="exporter-items"></div>
 
 	<div class="exporter-controls">
-		<button id="copy-typelist">Copy Typelist</button>
+	<button id="copy-typelist">Copy Typelist</button>
+	<button id="copy-mapping">Copy Mappings</button>
 	</div>
 </div>
 `
