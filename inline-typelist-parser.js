@@ -26,7 +26,6 @@ class InlineTypelistParser {
 					})
 
 					Promise.all(translateRequests).then(_ => {
-						debugger
 						lines.forEach(l => this.popup.addToList(l))
 					})
 				}
@@ -38,15 +37,18 @@ class InlineTypelistParser {
 	}
 
 	parseLine(l) {
-		let d = l.indexOf('=')
-		return ({
-			text: l.substr(d + 2).trim(),
-			code: d === -1 ? null : d === 0 ? ' ' : l.substr(0, d - 1)
+		l = l.trim()
+		const inline = l.split('=')
+		const appendix = l.split('\t')
+		const line = inline.length === 2 ? inline : appendix.length === 2 ? appendix : null
+		return line === null ? null : ({
+			code: line[0].trim(),
+			text: line[1].trim()
 		})
 	}
 
 	parse(t) {
-		return t.split('\n').map(l => this.parseLine(l)).filter(l => l.code)
+		return t.split('\n').map(l => this.parseLine(l)).filter(l => l)
 	}
 
     generateTypecodes(t) {
