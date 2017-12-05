@@ -57,8 +57,8 @@ class TypecodePopup {
 		var nodes = [].slice.call(document.querySelectorAll('.exporter-item[data-code]'))
 		return nodes.map(n => ({
 			code: n.querySelector('.exporter-item-code').innerText,
-			german: n.querySelector('.exporter-item-german').innerText,
-			english: n.querySelector('.exporter-item-english').value
+			german: n.querySelector('.exporter-item-german').innerText.trim(),
+			english: n.querySelector('.exporter-item-english').value.trim()
 		}))
     }
     
@@ -111,14 +111,17 @@ function getPopupTemplate() { return `
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+    justify-content: space-between;
+    overflow-y: auto;
+    max-height: 700px;
 }
 .exporter-item {
 	display: flex;
 	flex-wrap: nowrap;
 	flex-basis: 3em;
 	justify-content: space-between;
-	background: #eee
+    background: #eee;
+    flex-shrink: 0;
 }
 .exporter-item-code {
 	order: 1;
@@ -167,7 +170,7 @@ function getPopupTemplate() { return `
 	<div id="exporter-items"></div>
 
 	<div class="exporter-controls">
-	<button id="copy-typelist">Copy Typelist</button>
+	<button id="copy-typelist">Copy Typecodes</button>
 	<button id="copy-mapping">Copy Mappings</button>
 	</div>
 </div>
