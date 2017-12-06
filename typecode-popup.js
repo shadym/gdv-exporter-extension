@@ -1,4 +1,10 @@
 class TypecodePopup {
+
+    get typelistName() {
+        const name = document.getElementById('name')
+        return `GDV${name.value}_Ext`
+    }
+
     constructor(formatter) {
         this.formatter = formatter
     }
@@ -26,7 +32,17 @@ class TypecodePopup {
 		const copyMapping = document.querySelector('#copy-mapping')
 		copyMapping.addEventListener('click', e => {
 			this.copyToClipboard(this.getLines().map(l => this.formatter.toMapping(l)).join('\n'))
-		})
+        })
+        
+        const copyGermanTranslations = document.getElementById('copy-german-translations')
+        copyGermanTranslations.addEventListener('click', e => {
+            this.copyToClipboard(this.getLines().map(l => this.formatter.toGermanTranslation(this.typelistName, l)).join('\n'))
+        })
+
+        const copyEnglishTranslations = document.getElementById('copy-english-translations')
+        copyEnglishTranslations.addEventListener('click', e => {
+            this.copyToClipboard(this.getLines().map(l => this.formatter.toEnglishTranslation(this.typelistName, l)).join('\n'))
+        })
 	}
 
 	open() {
@@ -113,7 +129,7 @@ function getPopupTemplate() { return `
 	flex-direction: column;
     justify-content: space-between;
     overflow-y: auto;
-    max-height: 700px;
+    max-height: 500px;
 }
 .exporter-item {
 	display: flex;
@@ -172,6 +188,8 @@ function getPopupTemplate() { return `
 	<div class="exporter-controls">
 	<button id="copy-typelist">Copy Typecodes</button>
 	<button id="copy-mapping">Copy Mappings</button>
+	<button id="copy-german-translations">Copy German Translations</button>
+	<button id="copy-english-translations">Copy English Translations</button>
 	</div>
 </div>
 `

@@ -42,7 +42,7 @@ class InlineTypelistParser {
 		const appendix = l.split('\t')
 		const line = inline.length === 2 ? inline : appendix.length === 2 ? appendix : null
 		return line === null ? null : ({
-			code: line[0].trim(),
+			code: line[0] || ' ',
 			text: line[1].trim()
 		})
 	}

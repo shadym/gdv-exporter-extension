@@ -34,4 +34,14 @@ class Formatter {
 		${codes}
 		</typelist>`
     }
+
+    toGermanTranslation(typelistName, line) {
+        return `TypeKey.${typelistName}.${this.toCode(line.english)}=${line.german}
+TypeKeyDescription.${typelistName}.${this.toCode(line.english)}=${line.german}`
+    }
+
+    toEnglishTranslation(typelistName, line) {
+        return `TypeKey.${typelistName}.${this.toCode(line.english)}=${line.english}
+TypeKeyDescription.${typelistName}.${this.toCode(line.english)}=${line.english}`
+    }
 }
