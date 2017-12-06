@@ -36,12 +36,24 @@ class TypecodePopup {
         
         const copyGermanTranslations = document.getElementById('copy-german-translations')
         copyGermanTranslations.addEventListener('click', e => {
-            this.copyToClipboard(this.getLines().map(l => this.formatter.toGermanTranslation(this.typelistName, l)).join('\n'))
+            if (this.typelistName.length < 8) {
+                const name = document.getElementById('name')
+                name.focus()
+                alert('Enter the name of typelist')
+            } else {
+                this.copyToClipboard(this.getLines().map(l => this.formatter.toGermanTranslation(this.typelistName, l)).join('\n'))
+            }
         })
 
         const copyEnglishTranslations = document.getElementById('copy-english-translations')
         copyEnglishTranslations.addEventListener('click', e => {
-            this.copyToClipboard(this.getLines().map(l => this.formatter.toEnglishTranslation(this.typelistName, l)).join('\n'))
+            if (this.typelistName.length < 8) {
+                const name = document.getElementById('name')
+                name.focus()
+                alert('Enter the name of typelist')
+            } else {
+                this.copyToClipboard(this.getLines().map(l => this.formatter.toEnglishTranslation(this.typelistName, l)).join('\n'))
+            }
         })
 	}
 
