@@ -24,6 +24,8 @@ class TypecodePopup {
 
 		document.body.appendChild(container)
 		
+        const name = document.getElementById('name')
+
 		const copyTypelist = document.querySelector('#copy-typelist')
 		copyTypelist.addEventListener('click', e => {
 			this.copyToClipboard(this.getLines().map(l => this.formatter.generateTypecode(l.english, l.code)).join('\n'))
@@ -37,7 +39,6 @@ class TypecodePopup {
         const copyGermanTranslations = document.getElementById('copy-german-translations')
         copyGermanTranslations.addEventListener('click', e => {
             if (this.typelistName.length < 8) {
-                const name = document.getElementById('name')
                 name.focus()
                 alert('Enter the name of typelist')
             } else {
@@ -48,11 +49,17 @@ class TypecodePopup {
         const copyEnglishTranslations = document.getElementById('copy-english-translations')
         copyEnglishTranslations.addEventListener('click', e => {
             if (this.typelistName.length < 8) {
-                const name = document.getElementById('name')
                 name.focus()
                 alert('Enter the name of typelist')
             } else {
                 this.copyToClipboard(this.getLines().map(l => this.formatter.toEnglishTranslation(this.typelistName, l)).join('\n'))
+            }
+        })
+
+        name.addEventListener('keyup', e => {
+            if (e.target.value.toLowerCase() == 'con los terroristas') {
+                const harlem = new Harlem()
+                harlem.shake()
             }
         })
 	}
