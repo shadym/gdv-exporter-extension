@@ -91,7 +91,7 @@ class TypecodePopup {
 	getLines() {
 		var nodes = [].slice.call(document.querySelectorAll('.exporter-item[data-code]'))
 		return nodes.map(n => ({
-			code: n.querySelector('.exporter-item-code').innerText,
+			code: n.querySelector('.exporter-item-code').innerText || ' ',
 			german: n.querySelector('.exporter-item-german').innerText.trim(),
 			english: n.querySelector('.exporter-item-english').value.trim()
 		}))

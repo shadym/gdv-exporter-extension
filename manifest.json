@@ -3,7 +3,7 @@
 
   "name": "GDV exporter",
   "description": "This extension allows the user to export record data from GDV website",
-  "version": "0.2.8.3",
+  "version": "0.2.8.4",
 
   "background": {
     "persistent": false,
