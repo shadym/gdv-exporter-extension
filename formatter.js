@@ -15,13 +15,14 @@ class Formatter {
 		return `${this.toTitleCase(v)} (${n})`
     }
     
-    toMapping(line) {
+	toMapping(line, indent) {
+		indent = indent || 100
 		let len = this.toCode(line.english).length + line.code.length + 44
-		let spaceCount = 100 - len
+		let spaceCount = indent - len
 		return `<mapping typecode="${this.toCode(line.english)}" namespace="glp:gdv" alias="${line.code}" />${' '.repeat(spaceCount)}<!-- ${line.german} -->`
-    }
+	}
     
-    generateTypecode(v, n) {
+	generateTypecode(v, n) {
 		return `  <typecode
     code="${this.toCode(v)}"
     desc="${this.toDescription(v, n)}"
@@ -33,14 +34,14 @@ class Formatter {
 		<typelist xmlns="http://guidewire.com/typelists" name="${name}" desc="ADD DESCRIPTION HERE">
 		${codes}
 		</typelist>`
-    }
+	}
 
-    toGermanTranslation(typelistName, line) {
+	toGermanTranslation(typelistName, line) {
         return `TypeKey.${typelistName}.${this.toCode(line.english)}=${line.german}
 TypeKeyDescription.${typelistName}.${this.toCode(line.english)}=${line.german}`
     }
 
-    toEnglishTranslation(typelistName, line) {
+	toEnglishTranslation(typelistName, line) {
         return `TypeKey.${typelistName}.${this.toCode(line.english)}=${line.english}
 TypeKeyDescription.${typelistName}.${this.toCode(line.english)}=${line.english}`
     }

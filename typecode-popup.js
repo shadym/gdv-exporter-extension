@@ -33,7 +33,24 @@ class TypecodePopup {
 		
 		const copyMapping = document.querySelector('#copy-mapping')
 		copyMapping.addEventListener('click', e => {
-			this.copyToClipboard(this.getLines().map(l => this.formatter.toMapping(l)).join('\n'))
+			let lines = this.getLines()
+				.map(l => ({
+					indent: this.formatter.toCode(l.english).length + l.code.length + 44,
+					line: l
+				}))
+				.reduce((accum, curr, index, array) => {
+					accum.lines.push(curr.line)
+					return {
+						indent: Math.max(accum.indent, curr.indent),
+						lines: accum.lines
+					}
+				}, {indent: 0, lines: []})
+			
+			let mappings = lines.lines
+				.map(l => this.formatter.toMapping(l, lines.indent + 5))
+				.join('\n')
+			
+			this.copyToClipboard(mappings)
         })
         
         const copyGermanTranslations = document.getElementById('copy-german-translations')
