@@ -21,30 +21,18 @@ class Router {
 		input.addEventListener('keypress', e => {
 			if (e.key === "Enter") {
 				let val = input.value.trim()
-				var url = null
-				if (this.recordPattern.test(val)) {
-					url = `http://www.gdv-online.de/snetz/release2013/ds${val}.htm`
-				} else if (this.messagePattern.test(val)) {
-					url =`http://www.gdv-online.de/snetz/release2013/le0${+val}.htm`
-				} else if (this.appendixPattern.test(val)) {
-					url =`http://www.gdv-online.de/snetz/release2013/anl${val}.htm`
-				}
-
-				if (url) {
-					let test = this.testUrl(url)
-					if (test.success) {
-						document.location = url
-					} else {
-						this.showError(test.error)
-						input.value = ""
-					}
-				}
+				this.navigate(val)
 			}
 		})
 
 		div.addEventListener('keyup', e => {
 		 	if (e.key  == "Escape" || e.key == "Esc") {
 				input.blur()
+			}
+
+			let val = input.value.trim()
+			if (/\d/.test(e.key) && val.length > 3) {
+				this.navigate(val)
 			}
 		})
 
@@ -58,6 +46,26 @@ class Router {
 		document.body.appendChild(div)
 	}
 
+	navigate(val) {
+		var url = null
+		if (this.recordPattern.test(val)) {
+			url = `http://www.gdv-online.de/snetz/release2013/ds${val}.htm`
+		} else if (this.messagePattern.test(val)) {
+			url =`http://www.gdv-online.de/snetz/release2013/le0${+val}.htm`
+		} else if (this.appendixPattern.test(val)) {
+			url =`http://www.gdv-online.de/snetz/release2013/anl${val}.htm`
+		}
+
+		if (url) {
+			let test = this.testUrl(url)
+			if (test.success) {
+				document.location = url
+			} else {
+				this.showError(test.error)
+				input.value = ""
+			}
+		}
+	}
 	testUrl(url) {
 		var xhr = new XMLHttpRequest();
 		xhr.open('HEAD', url, false);
