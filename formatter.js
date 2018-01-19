@@ -8,7 +8,7 @@ class Formatter {
 	}
 
 	toName(v) {
-		 return v.replace(/[^a-z\d\s]+/ig, '').split(' ').filter(x => !!x).map(x => this.toTitleCase(x)).join('')
+		 return v.replace(/[^a-z\d\s]+/ig, '').split(' ').filter(x => !!x).map(x => this.toTitleCase(x)).join(' ')
 	}
 
 	toDescription(v, n) {
