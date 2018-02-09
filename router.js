@@ -51,7 +51,8 @@ class Router {
 		if (this.recordPattern.test(val)) {
 			url = `http://www.gdv-online.de/snetz/release2013/ds${val}.htm`
 		} else if (this.messagePattern.test(val)) {
-			url =`http://www.gdv-online.de/snetz/release2013/le0${+val}.htm`
+			const zeros = "0".repeat(3 - ('' + +val).length)
+			url =`http://www.gdv-online.de/snetz/release2013/le${zeros}${+val}.htm`
 		} else if (this.appendixPattern.test(val)) {
 			url =`http://www.gdv-online.de/snetz/release2013/anl${val}.htm`
 		}
