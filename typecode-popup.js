@@ -2,7 +2,7 @@ class TypecodePopup {
 
     get typelistName() {
         const name = document.getElementById('name')
-        return `GDV${name.value}_Ext`
+        return `${name.value}_Ext`
     }
 
     constructor(formatter) {
@@ -55,21 +55,11 @@ class TypecodePopup {
         
         const copyGermanTranslations = document.getElementById('copy-german-translations')
         copyGermanTranslations.addEventListener('click', e => {
-            if (this.typelistName.length < 8) {
+            if (this.typelistName.length < 5) {
                 name.focus()
                 alert('Enter the name of typelist')
             } else {
                 this.copyToClipboard(this.getLines().map(l => this.formatter.toGermanTranslation(this.typelistName, l)).join('\n'))
-            }
-        })
-
-        const copyEnglishTranslations = document.getElementById('copy-english-translations')
-        copyEnglishTranslations.addEventListener('click', e => {
-            if (this.typelistName.length < 8) {
-                name.focus()
-                alert('Enter the name of typelist')
-            } else {
-                this.copyToClipboard(this.getLines().map(l => this.formatter.toEnglishTranslation(this.typelistName, l)).join('\n'))
             }
         })
 
@@ -214,7 +204,7 @@ function getPopupTemplate() { return `
 
 <div class="exporter">
 	<div class="exporter-name-panel">
-		<span class="exporter-name-prefix">GDV</span>
+		<span class="exporter-name-prefix"></span>
 		<input id="name" type="text"></input>
 		<span class="exporter-name-postfix">_Ext.tti</span>
 	</div>
@@ -225,7 +215,6 @@ function getPopupTemplate() { return `
 	<button id="copy-typelist">Copy Typecodes</button>
 	<button id="copy-mapping">Copy Mappings</button>
 	<button id="copy-german-translations">Copy German Translations</button>
-	<button id="copy-english-translations">Copy English Translations</button>
 	</div>
 </div>
 `
