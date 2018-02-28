@@ -3,7 +3,7 @@
 
   "name": "GDV exporter",
   "description": "This extension allows the user to export record data from GDV website",
-  "version": "0.2.9.6",
+  "version": "0.2.10",
 
   "background": {
     "persistent": false,
@@ -23,6 +23,10 @@
     {
       "matches": ["*://*.gdv-online.de/*"],
       "js": ["exporter.js", "translator.js", "router.js", "formatter.js", "typecode-popup.js", "inline-typelist-parser.js", "harlem.js", "title.js"]
+    },
+    {
+      "matches": ["*://*.gdv-online.de/snetz/release2013/le*"],
+      "js": ["message/record.js", "message/meta-config.js", "message/meta-provider.js", "message/parser.js", "message/ui.js" ]
     }
   ]
 }
