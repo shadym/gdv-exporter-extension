@@ -51,6 +51,7 @@ class MessageUI {
                 flex-direction: column;
                 flex-grow: 1;
                 font-size: 1.2em;
+                align-items: flex-start;
             }
                 .message-record_className {
 
