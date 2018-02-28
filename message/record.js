@@ -7,9 +7,7 @@ class Record {
         this.titleGerman = titleGerman
         this.restrictions = restrictions
         this.className = null
-        this.isIn = null
-        this.isOut = null
-        this.isImplementedIn = null
-        this.isImplementedOut = null
+        this.implementedIn = null
+        this.implementedOut = null
     }
 }

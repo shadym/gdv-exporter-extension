@@ -35,8 +35,8 @@ class MetaProvider {
                 data.feed.entry.forEach(e => {
                     const number = +e['gsx$number'].$t
                     const className = e['gsx$classname'].$t
-                    const implementedIn = e['gsx$implementedIn'] && e['gsx$implementedIn'].$t
-                    const implementedOut = e['gsx$implementedOut'] && e['gsx$implementedOut'].$t
+                    const implementedIn = e['gsx$implementedin'].$t === "yes"
+                    const implementedOut = e['gsx$implementedout'].$t === "yes"
                     this.config.record[number] = {
                         className: className,
                         implementedIn: implementedIn,

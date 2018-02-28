@@ -59,6 +59,7 @@ class MessageUI {
             .message-record_status {
                 flex-basis: 6em;
                 flex-grow: 0;
+                visibility: hidden;
             }
                 .message-record_status--in {    
                     color: #b13c3c;
@@ -68,12 +69,7 @@ class MessageUI {
                 }
                 .message-record_status .implemented {
                     font-weight: 800;
-                }
-                .message-record_status .not-implemented {
-                    color: #bbb;
-                }
-                .message-record_status .not-exists {
-                    visibility: hidden;
+                    visibility: visible;
                 }
             
             .message-record_restrictions {
@@ -85,8 +81,8 @@ class MessageUI {
             <div class="message-record">
                 <div class="message-record_number">${genLink(r.number, r.number)}</div>
                 <div class="message-record_status">
-                    <span class="message-record_status--in ${r.isImplementedIn?"implemented":r.isIn?"not-implemented":"not-exists"}">IN</span>
-                    <span class="message-record_status--out ${r.isImplementedOut?"implemented":r.isOut?"not-implemented":"not-exists"}">OUT</span>
+                    <span class="message-record_status--in ${r.implementedIn?"implemented":""}">IN</span>
+                    <span class="message-record_status--out ${r.implementedOut?"implemented":""}">OUT</span>
                 </div>
                 <div class="message-record_title">
                     ${genLink(r.number, r.titleGerman)}
