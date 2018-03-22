@@ -1,6 +1,6 @@
 class Parser {
 	formatMultiline(htmlText) {
-		const isOneTag = text => text.match(/^<\//g) && text.match(/<\a>&//g).length === 1
+		const isOneTag = text => text.match(/^<\//g) && text.match(/<\a>&\z\//g).length === 1
 
 		var formatted = htmlText.trim()
 			.replace(/"/gm, '\'')
