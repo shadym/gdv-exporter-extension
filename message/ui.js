@@ -97,7 +97,6 @@ class MessageUI {
     }
 }
 
-
 var metaProvider = new MetaProvider()
 var messageParser = new MessageParser(metaProvider)
 var ui = new MessageUI(messageParser)

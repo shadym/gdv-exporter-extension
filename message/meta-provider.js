@@ -13,7 +13,7 @@ class MetaProvider {
     }
 
     checkStatus() {
-        if (this.status === "updated" || this.status === "cache") {
+        if (["updated", "updating", "cache"].indexOf(this.status)>-1) {
             if (this.status === "cache") {
                 this.update()
             }
@@ -25,6 +25,7 @@ class MetaProvider {
     }
 
     update() {
+        this.status = "updating"
         return fetch('https://spreadsheets.google.com/feeds/list/1bTRejM2CsRNCKKDRl9iAUzV8FZu4dh4XH4UNAl8WVKE/od6/public/values?alt=json-in-script&callback=data')
             .then(r => r.text())
             .then(text => {
@@ -46,6 +47,8 @@ class MetaProvider {
             })
             .then(() => {
                 localStorage['gdv-meta'] = JSON.stringify(this.config)
+                this.status = "updated"
+                console.log('set updated')
             })
     }
 
