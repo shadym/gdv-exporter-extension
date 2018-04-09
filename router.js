@@ -37,7 +37,7 @@ class Router {
 		})
 
 		document.addEventListener('keypress', e => {
-			if (e.keyCode === 10) {
+			if (["NumpadEnter", "Enter"].indexOf(e.code) > -1 && e.ctrlKey) {
 				input.focus()
 			}
 		})

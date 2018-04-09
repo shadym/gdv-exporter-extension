@@ -2,7 +2,8 @@ class MetaProvider {
 
     constructor() {
         this.config = {
-            record: {}
+            record: {},
+            message: {}
         }
         if (!!localStorage.getItem('gdv-meta')) {
             this.config = JSON.parse(localStorage.getItem('gdv-meta'))
@@ -26,8 +27,28 @@ class MetaProvider {
 
     update() {
         this.status = "updating"
-        return fetch('https://spreadsheets.google.com/feeds/list/1bTRejM2CsRNCKKDRl9iAUzV8FZu4dh4XH4UNAl8WVKE/od6/public/values?alt=json-in-script&callback=data')
+
+        let opt = {
+            url: 'https://spreadsheets.google.com/feeds/list/1bTRejM2CsRNCKKDRl9iAUzV8FZu4dh4XH4UNAl8WVKE/od6/public/values?alt=json-in-script&callback=data',
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin':'*'
+            }
+        }
+        let header = new Headers({
+            'Access-Control-Allow-Origin':'*'
+        })
+        let sentData = {
+            method: opt.method,
+            mode: 'cors',
+            header: header
+        }
+        return fetch(opt.url, sentData)
             .then(r => r.text())
+            .catch((e) => {
+                console.error(e)
+            })
             .then(text => {
                 text = text.split('\n')[1]
                 text = text.substr(5, text.length - 7)
@@ -57,6 +78,13 @@ class MetaProvider {
         return this.checkStatus().then(() => {
             const meta = this.config.record[record.number]
             return meta ? Object.assign(record, meta) : record
+        })
+    }
+
+    getMessage(message) {
+        return this.checkStatus().then(() => {
+            const meta = this.config.message[message.number]
+            return meta ? Object.assign(message, meta) : message
         })
     }
 }
