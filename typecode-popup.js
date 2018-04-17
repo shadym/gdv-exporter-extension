@@ -63,11 +63,18 @@ class TypecodePopup {
             }
         })
 
+		let started = false
         name.addEventListener('keyup', e => {
-            if (e.target.value.toLowerCase() == 'con los terroristas') {
-                const harlem = new Harlem()
-                harlem.shake()
-            }
+			if (!started) {
+				if (e.target.value.toLowerCase() == 'con los terroristas') {
+					started = true
+					const harlem = new Harlem()
+					harlem.shake()
+					setTimeout(() => {
+						started = false
+					}, 6000)
+				}
+			}
         })
 	}
 
